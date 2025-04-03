@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @unique @default(uuid())
+  firstName String?
+  lastName  String?
+  email     String  @unique
+  password  String?
+
+  uploads Meme[]
+  likes   Likes[]
+  saves   Saves[]
+}
+
+model Meme {
+  id        String    @id @default(uuid())
+  userId    String
+  caption   String
+  fileUrl   String
+  fileType  MemeType?
+  createdAt DateTime  @default(now())
+
+  tags  MemeTag[]
+  likes Likes[]
+  saves Saves[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum MemeType {
+  IMAGE
+  VIDEO
+}
+
+model Tag {
+  id   String @id @default(uuid())
+  name String @unique
+
+  memes MemeTag[]
+}
+
+model MemeTag {
+  memeId String
+  tagId  String
+
+  meme Meme @relation(fields: [memeId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([memeId, tagId])
+}
+
+model Likes {
+  id     String @id @default(uuid())
+  userId String
+  memeId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  meme Meme @relation(fields: [memeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, memeId])
+}
+
+model Saves {
+  id     String @id @default(uuid())
+  userId String
+  memeId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  meme Meme @relation(fields: [memeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, memeId])
+}
