@@ -1,8 +1,15 @@
 import Link from "next/link";
 import Button from "./components/ui/Button";
 import { Phrases } from "./components/ui/Phrases";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+
+  const session = await getServerSession();
+  if (session?.user) {
+    redirect("/home")
+  }
   return (
     <div className="flex min-h-screen flex-col bg-white">
       {/* Header */}

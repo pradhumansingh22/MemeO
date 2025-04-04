@@ -8,19 +8,16 @@ import axios from "axios";
 export const MemeCard = ({
   type,
   src,
-  caption,
   id,
   isSaved,
 }: {
   type: string;
   src: string;
-  caption: string;
   id: string;
   isSaved: boolean;
 }) => {
 
   const [saved, setSaved] = useState(isSaved);
-  const [loaded, setLoaded] = useState(false);
 
   const handleSave = async () => {
     try {
@@ -51,7 +48,7 @@ export const MemeCard = ({
     <Link href={`/meme/${id}`}>
       <div
         id={id}
-        className={`rounded-md overflow-hidden ${OpenSans.className} cursor-pointer`}
+        className={`rounded-md overflow-hidden ${OpenSans.className} cursor-pointer mb-4` }
       >
         {type === "IMAGE" ? (
           <div className="relative group">
@@ -59,9 +56,7 @@ export const MemeCard = ({
               className="rounded-lg transition-all duration-300 group-hover:brightness-60"
               src={src}
               alt="Meme"
-              onLoad={()=>{setLoaded(true)}}
             />
-            {loaded && caption}
             <div className="absolute top-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <button
                 className="bg-red-500 hover:bg-red-800 text-white rounded-full px-3 py-2 transition-all duration-200 cursor-pointer"
@@ -81,9 +76,8 @@ export const MemeCard = ({
               autoPlay
               muted
                 className="rounded-lg transition-all duration-300 group-hover:brightness-60"
-                onLoad={()=>{setLoaded(true)}}
               >
-                {loaded && caption}
+                
               <source src={src} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
@@ -96,7 +90,7 @@ export const MemeCard = ({
                   handleSave(); 
                 }}
               >
-                {saved ? "Saved" : "Save"}
+                {saved ? "Unsave" : "Save"}
               </button>
             </div>
           </div>

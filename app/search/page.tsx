@@ -21,7 +21,6 @@ export default function SearchPage() {
               id={meme.id}
               type={meme.fileType}
               src={meme.fileUrl}
-              caption={meme.caption}
               isSaved={meme.isSaved}
             ></MemeCard>
           );

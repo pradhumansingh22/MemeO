@@ -82,8 +82,8 @@ export const Sidebar = () => {
       <div>
         <button
           className="text-sm text-black hover:underline rounded-lg p-2 relative group cursor-pointer"
-          onClick={() => {
-            signOut();
+          onClick={async () => {
+            await signOut();
             router.push("/signin");
           }}
         >

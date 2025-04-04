@@ -9,11 +9,16 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 export default function SavedMemesPage() {
-  const session = useSession();
-  if (!session.data?.user) redirect("/signin");
-
+  const { status } = useSession();
   const [savedMemes, setSavedMemes] = useState<meme[]>([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      redirect("/signin");
+    }
+  }, [status]);
+
   useEffect(() => {
     setLoading(true);
     axios.get("api/save").then((res) => {
@@ -35,7 +40,6 @@ export default function SavedMemesPage() {
             id={meme.id}
             type={meme.fileType}
             src={meme.fileUrl}
-            caption={meme.caption}
             isSaved={true}
           ></MemeCard>
         );

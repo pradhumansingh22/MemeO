@@ -15,7 +15,7 @@ export const Memes = () => {
       setMemes(res.data.memes);
       setLoading(false);
     });
-  }, );
+  },[]);
 
   if (loading) {
     return (
@@ -33,7 +33,6 @@ export const Memes = () => {
           id={meme.id}
           type={meme.fileType}
           src={meme.fileUrl}
-          caption={meme.caption}
           isSaved={meme.isSaved}
         />
       ))}

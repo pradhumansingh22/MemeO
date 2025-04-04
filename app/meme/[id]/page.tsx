@@ -10,14 +10,18 @@ import LikeButton from "@/app/components/LikeButton";
 import { useSession } from "next-auth/react";
 
 export default function MemePage() {
-  const session = useSession();
-  if (!session.data?.user) redirect("/signin");
-
+  const { status } = useSession();
   const [meme, setMeme] = useState<meme>();
   const params = useParams();
   const memeId = params.id;
   const { memes, fetchMemes } = useMemeStore();
   const [loading, setLoading] = useState(true);
+
+   useEffect(() => {
+     if (status === "unauthenticated") {
+       redirect("/signin");
+     }
+   }, [status]);
 
   useEffect(() => {
     if (memes.length === 0) {
@@ -26,7 +30,7 @@ export default function MemePage() {
         setLoading(false);
       });
     }
-  }, [fetchMemes]);
+  }, []);
 
   useEffect(() => {
     if (memeId && memes.length > 0) {
