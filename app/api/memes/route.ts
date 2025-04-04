@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/app/lib/prisma";
+import { NextResponse } from "next/server";
+import {prisma} from "@/app/lib/prisma";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     const session = await getServerSession();
     if (!session || !session.user?.email) {
       return NextResponse.json({ message: "Unauthenticated" }, { status: 403 });

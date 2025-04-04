@@ -49,7 +49,7 @@ export default function MemePage() {
       <div className="border border-gray-300 rounded-lg p-4 md:p-6 grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 max-w-screen-lg w-full">
         {/* Media Section */}
         <div className="col-span-1 md:col-span-2">
-          <DetailsCard src={meme?.fileUrl!} type={meme?.fileType || "IMAGE"} />
+          <DetailsCard src={meme?.fileUrl ?? ""} type={meme?.fileType || "IMAGE"} />
         </div>
 
         {/* Info Section */}

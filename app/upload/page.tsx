@@ -9,7 +9,7 @@ export default function UploadMemeForm() {
   const [caption, setCaption] = useState("");
   const [tags, setTags] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isUploaded, setIsUploaded] = useState(false)
+  const [isUploaded, setIsUploaded] = useState(false);
 
   const handleUpload = async () => {
     const formData = new FormData();
@@ -30,19 +30,19 @@ export default function UploadMemeForm() {
         "Content-Type": "multipart/form-data",
       },
     });
-    res.data ? setLoading(false) : null
+    if (res.data) {
+      setLoading(false);
+    }
     setIsUploaded(true);
     removeFile();
     setCaption("");
     setTags("");
-    
   };
-  
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = e.target.files?.[0] || null;
     setFile(selectedFile);
-    selectedFile ? setPreview(URL.createObjectURL(selectedFile)) : undefined;
+    if (selectedFile) setPreview(URL.createObjectURL(selectedFile));
   }
   const fileType = file?.type.startsWith("image") ? "IMAGE" : "VIDEO";
 

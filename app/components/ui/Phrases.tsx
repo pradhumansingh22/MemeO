@@ -16,7 +16,7 @@ export const Phrases = () => {
             setCurrentPhrase((prev) => (prev + 1) % phrases.length);
         }, 3000);
         return () => clearInterval(interval);
-    }, []);
+    }, );
 
     return (
       <section className="relative z-10 py-16 md:py-24">

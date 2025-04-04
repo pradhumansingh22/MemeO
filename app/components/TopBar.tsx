@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import InputBox from "./InputBox";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter, } from "next/navigation";
 import { useSearchedMemes } from "../store/memeStore";
 import axios from "axios";
-import Link from "next/link"
 export const TopBar = () => {
   const router = useRouter();
   const { setSearchedMemes } = useSearchedMemes();

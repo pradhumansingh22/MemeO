@@ -1,4 +1,4 @@
-import prisma from "@/app/lib/prisma";
+import {prisma} from "@/app/lib/prisma";
 import { supabase } from "@/app/lib/utils/supabaseClient";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     }
 
     const fileName = `${Date.now()}-${file.name}`;
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from("memes")
       .upload(fileName, file, { contentType: file.type });
 

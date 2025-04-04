@@ -1,5 +1,5 @@
 import NextAuth from "next-auth";
-import prisma from "@/app/lib/prisma";
+import {prisma} from "@/app/lib/prisma";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
@@ -17,14 +17,17 @@ const handler = NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        Email: {
+        email: {
           label: "Email",
           type: "text",
           placeholder: "jhondoe@example.com",
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any) {
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Missing email or password");
+        }
         const existingUser = await prisma.user.findFirst({
           where: {
             email: credentials.email,
@@ -75,18 +78,19 @@ const handler = NextAuth({
       return true;
     },
 
-    async session({ session,  token }: any) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async session({ session, token }: any) {
       if (session.user) {
-        session.user.id = token.sub; 
-        session.user.email = token.email; 
+        session.user.id = token.id as string;
+        session.user.email = token.email;
       }
       return session;
     },
 
     async jwt({ token, user }) {
       if (user) {
-        token.sub = user.id; 
-        token.email = user.email; 
+        token.sub = user.id;
+        token.email = user.email;
       }
       return token;
     },

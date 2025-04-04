@@ -28,7 +28,7 @@ interface searchedMemeStore {
 
 export const useMemeStore = create<memeStore>((set) => ({
     memes: [],
-  setMemes: (memes) => set((state) => ({ memes: memes })),
+  setMemes: (memes) => set(() => ({ memes: memes })),
   fetchMemes: async () => {
     try {
       const res = await axios.get("/api/memes");
@@ -41,6 +41,6 @@ export const useMemeStore = create<memeStore>((set) => ({
 
 export const useSearchedMemes = create<searchedMemeStore>((set) => ({
   searchedMemes: [],
-  setSearchedMemes: (memes) => set((state) => ({ searchedMemes: memes })),
+  setSearchedMemes: (memes) => set(() => ({ searchedMemes: memes })),
 }));
 

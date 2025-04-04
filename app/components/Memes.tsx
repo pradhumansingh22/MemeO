@@ -15,7 +15,7 @@ export const Memes = () => {
       setMemes(res.data.memes);
       setLoading(false);
     });
-  }, []);
+  }, );
 
   if (loading) {
     return (
